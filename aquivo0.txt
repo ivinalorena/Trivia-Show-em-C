@@ -596,3 +596,4 @@ b
 a)Getúlio Vargas, Café Filho e Venceslau Brás.
 b) Hermes da Fonseca, Campos Sales e Jânio Quadros.
 c) Marechal Deodoro da Fonseca, Marechal Floriano Peixoto e Prudente de Morais.
+c
