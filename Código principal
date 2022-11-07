@@ -1,0 +1,140 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<time.h>
+
+typedef struct{
+	char nome[50];
+	int pontos;
+}player;
+
+void melhores(player x[], int k){
+
+	for(int i=0;i<=k-1;i++){
+        int maior = i;
+        for(int j = i+1; j>k; j++){
+            if(x[maior].pontos<x[j].pontos){
+                maior = j;
+            }
+        }
+        int aux = x[maior].pontos;
+        char auxi[50];
+        strcpy(auxi,x[maior].nome);
+        x[maior].pontos = x[i].pontos;
+        strcpy(x[maior].nome,x[i].nome);
+    	x[i].pontos = aux;
+    	strcpy(x[i].nome,auxi);
+    }
+}
+
+int aleatorio(void){
+    srand(time(NULL));
+    return rand() % (100);
+}
+
+void cabecalho(){
+	printf("============================================================\n");
+	printf("========================TRIVIA==SHOW========================\n");
+	printf("============================================================\n");
+}
+
+void creditos(){
+	printf("                                  feito por: Arthur Zico e Ivina Lorena\n");
+}
+
+
+int main(){
+int op,certo=0,abc=0,l;
+int i=1;
+char ranking[100];
+player jogador[6];
+char resp[100];
+char y[100];
+cabecalho();
+printf("Nome do jogador:");
+scanf("%s",jogador[i].nome);
+system("cls");
+do{
+	cabecalho();
+        printf("               --------------------------\n");
+        printf("               |  1-Novo jogo           |\n");
+        printf("               |                        |\n");
+        printf("               |  2-Melhores jogadores  |\n");
+        printf("               |                        |\n");
+        printf("               |  3-Sair do jogo        |\n");
+        printf("               --------------------------\n");
+        creditos();
+        
+        scanf("%d", &op);
+        system("cls");
+
+        switch(op){
+        case 1:{
+    char texto[100];
+    char p[600][100];
+    FILE *ar= fopen ("arquivo0.txt","r");
+    while(fgets(texto,100,ar)!=NULL && i<=600){
+    strcpy(p[i], texto);
+            i++;
+}
+	for(int cont=1;cont<=10;cont++){
+		l=aleatorio();
+		l=(l*6)-5;
+		cabecalho();
+		while(abc<=5){
+	if(l%6==0){
+                printf("\nEscolha a alternativa:");
+                scanf(" %s",resp);
+                if(strncmp(p[l],resp,1)==0){
+                printf("Resposta Certa.\n\n");
+                certo++;
+                }
+                else{
+                    printf("Resposta Errada.\n\n");
+                    
+                    printf("Quantidade de perguntas acertadas %d\n\n",certo);
+                    for (;;) main();
+                }
+                }
+                printf("%s",p[l]);
+            l++;
+            abc++;
+		}
+		system("cls");
+		abc=0;
+		l=0;
+        }
+    fclose(ar);
+    jogador[5].pontos=certo;
+    break;
+	}
+	
+	
+    case 2:{
+    int g=0;
+    FILE *rank=fopen("ranking.txt","w");	
+	if(rank!=NULL){
+		while(fscanf(rank, "%[^\n]s", jogador[g].nome)!=EOF){
+			fscanf(rank, "%d", jogador[g].pontos);
+			fscanf(rank, "/n");
+			g++;
+		}
+	
+}
+else{
+	printf("erro");
+}
+ melhores(jogador, i);
+for(int i=0;i<5;i++){
+	printf("%s: %d pnts.\n\n", jogador[i].nome,jogador[g].pontos);
+	}
+	fclose(rank);
+    break;
+ }
+ case 3:
+ 	printf("Fim de jogo.");
+ }
+}while(op!=3);
+
+return 0;
+}
